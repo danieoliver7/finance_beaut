@@ -59,7 +59,3 @@ com.beautyclinic.finance
 ├── security/
 └── util/
 ```
-
-## Licença
-
-Este projeto está sob a licença MIT. 
