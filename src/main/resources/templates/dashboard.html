@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Beauty Clinic Finance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+  
+    <!-- FullCalendar -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js'></script>
+    <script src="/js/agendamentos.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos específicos para o dashboard */
+        body {
+            padding-top: 70px;
+            background-color: var(--secondary-color);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .dashboard-container {
+            padding: 20px;
+        }
+        
+        
+        
+        .main-content {
+            margin-left: 260px;
+            padding: 35px 20px 20px 20px;
+        }
+        
+        .card-dashboard {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            border: none;
+            overflow: hidden;
+        }
+        
+        .card-dashboard .card-header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .card-dashboard .card-body {
+            padding: 20px;
+        }
+        
+        .stat-card {
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+        
+        .stat-card .icon {
+            background-color: rgba(89, 48, 67, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .details {
+            flex: 1;
+        }
+        
+        .stat-card .details h5 {
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+        
+        .stat-card .details h3 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .details p {
+            margin: 5px 0 0;
+            font-size: 13px;
+            color: var(--text-dark);
+            opacity: 0.7;
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: rgba(89, 48, 67, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-weight: 500;
+            border: 1px dashed var(--border-color);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background-color: rgba(89, 48, 67, 0.05);
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+        
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .status-success {
+            background-color: var(--success-color);
+        }
+        
+        .status-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .status-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .progress-bar-custom {
+            height: 8px;
+            border-radius: 4px;
+            background-color: rgba(89, 48, 67, 0.1);
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .progress-value {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .bg-primary-custom {
+            background-color: var(--primary-color);
+        }
+        
+        .bg-success-custom {
+            background-color: var(--success-color);
+        }
+        
+        .bg-warning-custom {
+            background-color: var(--warning-color);
+        }
+        
+        .bg-danger-custom {
+            background-color: var(--danger-color);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                margin-bottom: 20px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Define que esta página usa o layout principal -->
+    <th:block th:replace="layout/main :: html(
+        pageTitle=~{::title},
+        content=~{::div#dashboard-content},
+        activeMenu='dashboard',
+        pageHeader='Dashboard',
+        pageActions=~{::div#dashboard-actions},
+        pageCss=~{::div#dashboard-css},
+        pageScripts=~{::div#dashboard-scripts})">
+    </th:block>
+    
+    <!-- CSS específico do dashboard -->
+    <div id="dashboard-css" th:fragment="pageCss">
+        <style>
+            .stat-card {
+                border-radius: 10px;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+                border: none;
+            }
+            
+            .stat-card .icon {
+                background-color: rgba(89, 48, 67, 0.1);
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 15px;
+                font-size: 24px;
+                color: var(--primary-color);
+            }
+            
+            .stat-card .details {
+                flex: 1;
+            }
+            
+            .stat-card .details h5 {
+                margin-bottom: 5px;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--text-dark);
+                opacity: 0.8;
+            }
+            
+            .stat-card .details h3 {
+                margin: 0;
+                font-size: 24px;
+                font-weight: 700;
+                color: var(--primary-color);
+            }
+            
+            .chart-placeholder {
+                width: 100%;
+                height: 300px;
+                background-color: rgba(89, 48, 67, 0.05);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-dark);
+                font-weight: 500;
+                border: 1px dashed var(--border-color);
+            }
+            
+            .progress-bar-custom {
+                height: 8px;
+                border-radius: 4px;
+                background-color: rgba(89, 48, 67, 0.1);
+                overflow: hidden;
+                width: 100%;
+            }
+            
+            .progress-value {
+                height: 100%;
+                border-radius: 4px;
+            }
+            
+            .bg-primary-custom {
+                background-color: var(--primary-color);
+            }
+            
+            .bg-success-custom {
+                background-color: var(--success-color);
+            }
+            
+            .bg-warning-custom {
+                background-color: var(--warning-color);
+            }
+            
+            .bg-danger-custom {
+                background-color: var(--danger-color);
+            }
+        </style>
+    </div>
+    
+    <!-- Ações do título da página -->
+    <div id="dashboard-actions" th:fragment="pageActions">
+        <button class="btn btn-outline-primary me-2">
+            <i class="bi bi-calendar"></i> Período: Este mês
+        </button>
+        <button class="btn btn-primary">
+            <i class="bi bi-download"></i> Exportar
+        </button>
+    </div>
+    
+    <!-- Conteúdo específico do dashboard -->
+    <div id="dashboard-content" th:fragment="content">
+        <!-- Cards de Estatísticas -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div class="details">
+                        <h5>Total de Agendamentos</h5>
+                        <h3>48</h3>
+                        <p><i class="bi bi-arrow-up-short text-success"></i> +12% este mês</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="icon">
+                        <i class="bi bi-person-plus"></i>
+                    </div>
+                    <div class="details">
+                        <h5>Novos Clientes</h5>
+                        <h3>12</h3>
+                        <p><i class="bi bi-arrow-up-short text-success"></i> +8% este mês</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="icon">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="details">
+                        <h5>Receita</h5>
+                        <h3>R$ 8.250</h3>
+                        <p><i class="bi bi-arrow-up-short text-success"></i> +15% este mês</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="details">
+                        <h5>Taxa de Ocupação</h5>
+                        <h3>78%</h3>
+                        <p><i class="bi bi-arrow-down-short text-danger"></i> -2% este mês</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos e Tabelas -->
+        <div class="row mt-4">
+            <!-- Gráfico de Faturamento -->
+            <div class="col-lg-8">
+                <div class="card card-dashboard">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Receita Mensal</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="revenueDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Este Ano
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="revenueDropdown">
+                                <li><a class="dropdown-item" href="#">Este Mês</a></li>
+                                <li><a class="dropdown-item" href="#">Último Trimestre</a></li>
+                                <li><a class="dropdown-item" href="#">Este Ano</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-placeholder">
+                            <div class="text-center">
+                                <i class="bi bi-bar-chart-line fs-1 mb-3"></i>
+                                <p>Aqui será implementado o gráfico de receita mensal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráfico de Estatísticas -->
+            <div class="col-lg-4">
+                <div class="card card-dashboard">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Estatísticas</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="statsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Este Mês
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="statsDropdown">
+                                <li><a class="dropdown-item" href="#">Esta Semana</a></li>
+                                <li><a class="dropdown-item" href="#">Este Mês</a></li>
+                                <li><a class="dropdown-item" href="#">Este Ano</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-placeholder">
+                            <div class="text-center">
+                                <i class="bi bi-pie-chart fs-1 mb-3"></i>
+                                <p>Aqui será implementado o gráfico de estatísticas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Tabela de Agendamentos Recentes -->
+            <div class="col-lg-7">
+                <div class="card card-dashboard">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Agendamentos Recentes</h5>
+                        <a href="/agendamentos" class="btn btn-sm btn-outline-primary">Ver todos</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Procedimento</th>
+                                        <th>Data/Hora</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ana Silva</td>
+                                        <td>Limpeza de Pele</td>
+                                        <td>20/11/2023 14:30</td>
+                                        <td>R$ 150,00</td>
+                                        <td><span class="status-indicator status-success"></span> Confirmado</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carlos Oliveira</td>
+                                        <td>Massagem Modeladora</td>
+                                        <td>21/11/2023 10:00</td>
+                                        <td>R$ 200,00</td>
+                                        <td><span class="status-indicator status-warning"></span> Pendente</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mariana Costa</td>
+                                        <td>Microagulhamento</td>
+                                        <td>22/11/2023 16:45</td>
+                                        <td>R$ 350,00</td>
+                                        <td><span class="status-indicator status-success"></span> Confirmado</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Paulo Santos</td>
+                                        <td>Depilação a Laser</td>
+                                        <td>18/11/2023 09:15</td>
+                                        <td>R$ 280,00</td>
+                                        <td><span class="status-indicator status-danger"></span> Cancelado</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Juliana Lima</td>
+                                        <td>Peeling Químico</td>
+                                        <td>23/11/2023 15:30</td>
+                                        <td>R$ 180,00</td>
+                                        <td><span class="status-indicator status-success"></span> Confirmado</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desempenho dos Procedimentos -->
+            <div class="col-lg-5">
+                <div class="card card-dashboard">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Desempenho dos Procedimentos</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="perfDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Este Mês
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="perfDropdown">
+                                <li><a class="dropdown-item" href="#">Esta Semana</a></li>
+                                <li><a class="dropdown-item" href="#">Este Mês</a></li>
+                                <li><a class="dropdown-item" href="#">Este Ano</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Limpeza de Pele</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-primary-custom" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Massagem Modeladora</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-success-custom" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Microagulhamento</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-warning-custom" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Depilação a Laser</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-primary-custom" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Peeling Químico</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-danger-custom" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts específicos do dashboard -->
+    <div id="dashboard-scripts" th:fragment="pageScripts">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Aqui você pode colocar o JavaScript específico da página de dashboard
+                console.log('Dashboard page loaded');
+                
+                // Carregar dados recentes de agendamentos
+                if (typeof carregarAgendamentosRecentes === 'function') {
+                    carregarAgendamentosRecentes();
+                }
+            });
+            
+            // Função para carregar agendamentos recentes
+            function carregarAgendamentosRecentes() {
+                const tbody = document.querySelector('.data-table tbody');
+                if (!tbody) return;
+                
+                // Se a API estiver disponível, carregar dados reais
+                if (typeof api !== 'undefined' && api.agendamentos) {
+                    api.agendamentos.hoje()
+                        .then(agendamentos => {
+                            // Se não houver agendamentos, manter os dados de exemplo
+                            if (agendamentos.length === 0) return;
+                            
+                            // Limpar a tabela
+                            tbody.innerHTML = '';
+                            
+                            // Mostrar os novos dados
+                            agendamentos.slice(0, 5).forEach(ag => {
+                                const tr = document.createElement('tr');
+                                
+                                // Formatar a data e hora
+                                const dataHora = new Date(ag.dataHora);
+                                const dataFormatada = dataHora.toLocaleDateString('pt-BR');
+                                const horaFormatada = dataHora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+                                
+                                // Definir a classe do status
+                                let statusClass = '';
+                                switch (ag.status) {
+                                    case 'AGENDADO':
+                                    case 'CONFIRMADO':
+                                        statusClass = 'status-success';
+                                        break;
+                                    case 'CANCELADO':
+                                    case 'FALTOU':
+                                        statusClass = 'status-danger';
+                                        break;
+                                    default:
+                                        statusClass = 'status-warning';
+                                }
+                                
+                                tr.innerHTML = `
+                                    <td>${ag.cliente.nome}</td>
+                                    <td>${ag.procedimento.nome}</td>
+                                    <td>${dataFormatada} ${horaFormatada}</td>
+                                    <td>R$ ${ag.valor.toFixed(2).replace('.', ',')}</td>
+                                    <td><span class="status-indicator ${statusClass}"></span> ${ag.status}</td>
+                                `;
+                                
+                                tbody.appendChild(tr);
+                            });
+                        })
+                        .catch(error => console.error('Erro ao carregar agendamentos:', error));
+                }
+            }
+        </script>
+    </div>
+</body>
+</html> 

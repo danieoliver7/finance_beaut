@@ -1,0 +1,167 @@
+/* Estilos para o calendário */
+.calendar-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 20px;
+    height: calc(100vh - 150px);
+    overflow: auto;
+}
+
+/* Estilos específicos para o FullCalendar */
+.fc {
+    height: calc(100% - 60px);
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 1rem;
+}
+
+.fc .fc-button-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.fc .fc-button-primary:hover {
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
+}
+
+.fc .fc-daygrid-day-frame {
+    border-radius: 6px;
+    min-height: 80px;
+    transition: background-color 0.2s;
+}
+
+.fc .fc-daygrid-day-top {
+    padding: 5px;
+}
+
+.fc .fc-daygrid-day-number {
+    font-weight: 500;
+}
+
+.fc .fc-day-today {
+    background-color: rgba(var(--primary-color-rgb), 0.05) !important;
+}
+
+.fc .fc-day-today .fc-daygrid-day-number {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.fc .fc-daygrid-event {
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin-bottom: 1px;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border-radius: 6px;
+}
+
+.fc-event-estetica {
+    background-color: #4285f4 !important;
+    border-color: #4285f4 !important;
+}
+
+.fc-event-saude {
+    background-color: #0b8043 !important;
+    border-color: #0b8043 !important;
+}
+
+.fc-event-outro {
+    background-color: #8e24aa !important;
+    border-color: #8e24aa !important;
+}
+
+.fc-event-cancelado {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .calendar-container {
+        padding: 10px;
+        height: calc(100vh - 120px);
+    }
+    
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .calendar-header > div {
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .btn-group {
+        display: flex;
+        width: 100%;
+    }
+    
+    .btn-group .btn {
+        flex: 1;
+    }
+}
+
+/* Cores para categorias */
+.bg-estetica {
+    background-color: #4285f4;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 4px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.bg-saude {
+    background-color: #0b8043;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 4px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.bg-cancelado {
+    background-color: #db4437;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 4px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.legend-text {
+    color: var(--text-dark);
+}
+
+/* Ajustes para o FullCalendar no dashboard */
+.card-dashboard .calendar-container {
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+    min-height: 600px;
+}
+
+.fc-h-event {
+    border: none !important;
+    padding: 2px 4px !important;
+}
+
+.calendar-header {
+    border-bottom: none;
+} 

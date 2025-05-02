@@ -1,0 +1,233 @@
+SISTEMA DE CONTROLE FINANCEIRO - CLÍNICA DE ESTÉTICA
+====================================================
+
+1. CONFIGURAÇÃO INICIAL
+----------------------
+1.1. Criar novo projeto Spring Boot:
+   - Nome: beauty-clinic-finance
+   - Grupo: com.beautyclinic
+   - Dependências iniciais:
+     * Spring Web
+     * Spring Data JPA
+     * PostgreSQL Driver
+     * Lombok
+     * Spring Security
+     * Spring Validation
+     * Thymeleaf
+
+1.2. Configuração do Banco de Dados:
+   - Nome: beauty_clinic_finance_db
+   - Usuário: daniel
+   - Senha: toor
+
+1.3. Configuração do GitHub:
+   - Criar repositório: beauty-clinic-finance
+   - Estrutura do .gitignore
+   - Commit inicial
+
+2. ESTRUTURA DO PROJETO
+----------------------
+2.1. Pacotes principais:
+   com.beautyclinic.finance
+   ├── config/
+   ├── controller/
+   ├── model/
+   ├── repository/
+   ├── service/
+   ├── dto/
+   ├── exception/
+   ├── security/
+   └── util/
+
+2.2. Recursos Frontend:
+   src/main/resources/
+   ├── static/
+   │   ├── css/
+   │   ├── js/
+   │   └── images/
+   └── templates/
+
+3. ENTIDADES PRINCIPAIS
+----------------------
+3.1. Cliente
+   - ID
+   - Nome
+   - CPF
+   - Contato
+   - Histórico de Procedimentos
+
+3.2. Procedimento
+   - ID
+   - Nome
+   - Valor
+   - Duração
+   - Categoria
+
+3.3. Agendamento
+   - ID
+   - Cliente
+   - Procedimento
+   - Data/Hora
+   - Status
+   - Valor
+
+3.4. Financeiro
+   - ID
+   - Tipo (Receita/Despesa)
+   - Valor
+   - Data
+   - Categoria
+   - Descrição
+   - Forma de Pagamento
+
+3.5. Profissional
+   - ID
+   - Nome
+   - Especialidade
+   - Comissão
+   - Disponibilidade
+
+4. FUNCIONALIDADES PRINCIPAIS
+----------------------------
+4.1. Gestão de Clientes
+   - Cadastro
+   - Atualização
+   - Consulta
+   - Histórico
+
+4.2. Gestão de Procedimentos
+   - Cadastro
+   - Precificação
+   - Categorização
+
+4.3. Agendamentos
+   - Marcação
+   - Remarcação
+   - Cancelamento
+   - Confirmação
+
+4.4. Controle Financeiro
+   - Lançamentos
+   - Relatórios
+   - Fluxo de Caixa
+   - Comissionamento
+
+5. INTERFACE DO USUÁRIO
+----------------------
+5.1. Layouts Base
+   - Dashboard
+   - Formulários
+   - Listagens
+   - Relatórios
+
+5.2. Componentes TailwindCSS
+   - Cards
+   - Tabelas
+   - Formulários
+   - Botões
+   - Modais
+
+5.3. Animações JavaScript
+   - Transições de página
+   - Feedback de ações
+   - Modais
+   - Alertas
+
+6. SEGURANÇA
+------------
+6.1. Autenticação
+   - Login
+   - Recuperação de senha
+   - Níveis de acesso
+
+6.2. Autorização
+   - Perfis de usuário
+   - Permissões
+   - Rotas protegidas
+
+7. TESTES
+---------
+7.1. Testes Unitários
+7.2. Testes de Integração
+7.3. Testes End-to-End
+
+8. DOCUMENTAÇÃO
+--------------
+8.1. API (Swagger)
+8.2. Readme
+8.3. Documentação do código
+8.4. Manual do usuário
+
+9. DEPLOY
+---------
+9.1. Ambiente de desenvolvimento
+9.2. Ambiente de homologação
+9.3. Ambiente de produção
+
+10. CICLO DE DESENVOLVIMENTO
+---------------------------
+10.1. Sprint 1: Estrutura Base
+   - Configuração do projeto
+   - Modelos básicos
+   - Conexão com banco de dados
+
+10.2. Sprint 2: Funcionalidades Core
+   - CRUD de Clientes
+   - CRUD de Procedimentos
+   - Sistema de Agendamento
+
+10.3. Sprint 3: Financeiro
+   - Controle de receitas
+   - Controle de despesas
+   - Relatórios básicos
+
+10.4. Sprint 4: Interface
+   - Implementação do TailwindCSS
+   - Layouts responsivos
+   - Animações
+
+10.5. Sprint 5: Segurança e Refinamentos
+   - Implementação de autenticação
+   - Ajustes de UX
+   - Testes e correções
+
+PADRÕES DE COMMIT
+----------------
+feat: nova funcionalidade
+fix: correção de bug
+docs: documentação
+style: formatação
+refactor: refatoração
+test: testes
+chore: manutenção
+
+BRANCHES
+--------
+main: produção
+develop: desenvolvimento
+feature/*: novas funcionalidades
+hotfix/*: correções urgentes
+release/*: preparação para release
+
+COMANDOS ÚTEIS
+-------------
+- Criar projeto: spring init --dependencies=web,data-jpa,postgresql,lombok,security
+- Build: ./mvnw clean install
+- Executar: ./mvnw spring-boot:run
+- Testes: ./mvnw test
+
+OBSERVAÇÕES IMPORTANTES
+---------------------
+1. Manter backup regular do banco de dados
+2. Documentar todas as alterações significativas
+3. Seguir princípios SOLID
+4. Implementar logs adequados
+5. Manter cobertura de testes
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/beauty_clinic_finance_db
+spring.datasource.username=daniel
+spring.datasource.password=toor
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect

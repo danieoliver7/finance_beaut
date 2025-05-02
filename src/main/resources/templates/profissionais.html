@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profissionais - Beauty Clinic Finance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #593043;
+            --primary-light: #f8f6f8;
+            --primary-dark: #40232f;
+            --accent-color: #e83e8c;
+            --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --border-color: #e3e6f0;
+            --success-color: #1cc88a;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --info-color: #36b9cc;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0e9e2;
+            color: var(--text-dark);
+        }
+        
+        body.has-sidebar {
+            padding-left: var(--sidebar-width);
+            padding-top: 30px;
+        }
+        
+        .main-container {
+            padding: 85px 30px 20px 30px;
+        }
+        
+        .page-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        /* Estatísticas */
+        .stats-row {
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            border-radius: 0.375rem;
+            border-left: 0.25rem solid;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            background-color: white;
+            padding: 1.25rem;
+            position: relative;
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        
+        .stat-card .stat-icon {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        .stat-card .stat-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+            color: #4e73df;
+        }
+        
+        .stat-card .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            color: var(--text-dark);
+        }
+        
+        .stat-card .stat-percent {
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+        
+        .card-primary {
+            border-left-color: #4e73df;
+        }
+        
+        .card-primary .stat-title {
+            color: #4e73df;
+        }
+        
+        .card-success {
+            border-left-color: #1cc88a;
+        }
+        
+        .card-success .stat-title {
+            color: #1cc88a;
+        }
+        
+        .card-info {
+            border-left-color: #36b9cc;
+        }
+        
+        .card-info .stat-title {
+            color: #36b9cc;
+        }
+        
+        .card-warning {
+            border-left-color: #f6c23e;
+        }
+        
+        .card-warning .stat-title {
+            color: #f6c23e;
+        }
+        
+        /* Tabela de profissionais */
+        .table-card {
+            border-radius: 0.375rem;
+            background-color: white;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border: none;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .table-header {
+            padding: 1rem 1.25rem;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+        
+        .professionals-table {
+            margin-bottom: 0;
+        }
+        
+        .professionals-table th {
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.75rem 1.25rem;
+            background-color: #f8f9fc;
+            border-bottom: 1px solid var(--border-color);
+            color: #4e73df;
+            text-transform: uppercase;
+        }
+        
+        .professionals-table td {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            vertical-align: middle;
+            border-color: var(--border-color);
+        }
+        
+        .professionals-table tr:hover {
+            background-color: #f8f9fc;
+        }
+        
+        /* Status badges */
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-ativo {
+            background-color: rgba(28, 200, 138, 0.1);
+            color: #1cc88a;
+        }
+        
+        .status-inativo {
+            background-color: rgba(231, 74, 59, 0.1);
+            color: #e74a3b;
+        }
+        
+        .status-ferias {
+            background-color: rgba(246, 194, 62, 0.1);
+            color: #f6c23e;
+        }
+        
+        .status-afastado {
+            background-color: rgba(54, 185, 204, 0.1);
+            color: #36b9cc;
+        }
+        
+        /* Rating stars */
+        .rating {
+            color: #f6c23e;
+        }
+        
+        /* Botões de ação */
+        .action-btn {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            margin-right: 5px;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 992px) {
+            body.has-sidebar {
+                padding-left: 0;
+            }
+            
+            .top-nav {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        
+        /* Personalização do hover do botão principal */
+        .btn-primary:hover {
+            background-color: #6b3a51; /* Tom mais claro da cor principal */
+            border-color: #6b3a51;
+            color: white;
+        }
+    </style>
+</head>
+<body class="has-sidebar">
+    <!-- Sidebar -->
+    <div th:replace="fragments/sidebar :: sidebar('profissionais')"></div>
+    
+    <!-- Barra de navegação superior -->
+    <header th:replace="fragments/header :: header"></header>
+
+    <!-- Conteúdo principal -->
+    <div class="main-container">
+        <!-- Cabeçalho da página -->
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <h4 class="page-title mb-0">Profissionais</h4>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm shadow-sm">
+                    <i class="bi bi-filter"></i> Filtrar
+                </button>
+                <button class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#novoProfissionalModal">
+                    <i class="bi bi-plus-circle"></i> Novo Profissional
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards de estatísticas -->
+        <div class="row stats-row">
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-primary">
+                    <div class="stat-title">Total de Profissionais</div>
+                    <div class="stat-value">15</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-up"></i> 2 novos este mês</div>
+                    <div class="stat-icon"><i class="bi bi-people"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-success">
+                    <div class="stat-title">Atendimentos Realizados</div>
+                    <div class="stat-value">234</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-up"></i> 12% este mês</div>
+                    <div class="stat-icon"><i class="bi bi-calendar-check"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-info">
+                    <div class="stat-title">Avaliação Média</div>
+                    <div class="stat-value">4.8</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-up"></i> 0.2 este mês</div>
+                    <div class="stat-icon"><i class="bi bi-star"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-warning">
+                    <div class="stat-title">Comissões Pagas</div>
+                    <div class="stat-value">R$ 12.450</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-up"></i> 5% este mês</div>
+                    <div class="stat-icon"><i class="bi bi-cash"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela de profissionais -->
+        <div class="table-card">
+            <div class="table-header">
+                <h5 class="table-title">Lista de Profissionais</h5>
+                <div class="input-group" style="width: 250px;">
+                    <input type="text" class="form-control form-control-sm" placeholder="Buscar profissional">
+                    <button class="btn btn-outline-secondary btn-sm" type="button">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table professionals-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Identificação</th>
+                            <th>Especialidade</th>
+                            <th>Atendimentos</th>
+                            <th>Avaliação</th>
+                            <th>Status</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dra. Ana Oliveira</td>
+                            <td>CRM-12345</td>
+                            <td>Dermatologia</td>
+                            <td>43</td>
+                            <td>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                    <small class="text-muted ms-1">4.5</small>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status-ativo">Ativo</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-info action-btn" title="Ver detalhes">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn" title="Desativar">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dr. Carlos Santos</td>
+                            <td>CRO-54321</td>
+                            <td>Odontologia</td>
+                            <td>32</td>
+                            <td>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <small class="text-muted ms-1">4.0</small>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status-ativo">Ativo</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-info action-btn" title="Ver detalhes">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn" title="Desativar">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Márcia Lima</td>
+                            <td>CREFITO-7890</td>
+                            <td>Fisioterapia</td>
+                            <td>28</td>
+                            <td>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <small class="text-muted ms-1">5.0</small>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status-ferias">Férias</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-info action-btn" title="Ver detalhes">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn" title="Desativar">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Paulo Costa</td>
+                            <td>CRBM-4567</td>
+                            <td>Biomedicina</td>
+                            <td>15</td>
+                            <td>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                    <small class="text-muted ms-1">3.0</small>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status-inativo">Inativo</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-info action-btn" title="Ver detalhes">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-success action-btn" title="Ativar">
+                                    <i class="bi bi-check-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Juliana Ferreira</td>
+                            <td>EST-2468</td>
+                            <td>Esteticista</td>
+                            <td>56</td>
+                            <td>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                    <small class="text-muted ms-1">4.7</small>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status-ativo">Ativo</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-info action-btn" title="Ver detalhes">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn" title="Desativar">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Roberto Almeida</td>
+                            <td>MAS-1357</td>
+                            <td>Massoterapia</td>
+                            <td>39</td>
+                            <td>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <small class="text-muted ms-1">4.2</small>
+                                </div>
+                            </td>
+                            <td><span class="status-badge status-afastado">Afastado</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-info action-btn" title="Ver detalhes">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn" title="Desativar">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                <div>Mostrando 1-6 de 15 profissionais</div>
+                <nav aria-label="Paginação profissionais">
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Próximo">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Profissional -->
+    <div class="modal fade" id="novoProfissionalModal" tabindex="-1" aria-labelledby="novoProfissionalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="novoProfissionalModalLabel">Novo Profissional</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovoProfissional">
+                        <div class="row g-3">
+                            <!-- Informações Pessoais -->
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3">Informações Pessoais</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="nomeProfissional" class="form-label">Nome Completo*</label>
+                                <input type="text" class="form-control" id="nomeProfissional" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="identificacaoProfissional" class="form-label">Identificação Profissional</label>
+                                <input type="text" class="form-control" id="identificacaoProfissional" placeholder="CRM, CREFITO, etc.">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefoneProfissional" class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="telefoneProfissional" placeholder="(00) 00000-0000">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="emailProfissional" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="emailProfissional">
+                            </div>
+
+                            <!-- Informações Profissionais -->
+                            <div class="col-12 mt-4">
+                                <h6 class="fw-bold mb-3">Informações Profissionais</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="especialidadeProfissional" class="form-label">Especialidade*</label>
+                                <input type="text" class="form-control" id="especialidadeProfissional" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comissaoProfissional" class="form-label">Comissão Padrão (%)*</label>
+                                <input type="number" class="form-control" id="comissaoProfissional" min="0" max="100" step="0.1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="statusProfissional" class="form-label">Status*</label>
+                                <select class="form-select" id="statusProfissional" required>
+                                    <option value="ATIVO" selected>Ativo</option>
+                                    <option value="INATIVO">Inativo</option>
+                                    <option value="FERIAS">Férias</option>
+                                    <option value="AFASTADO">Afastado</option>
+                                </select>
+                            </div>
+
+                            <!-- Disponibilidade -->
+                            <div class="col-12 mt-4">
+                                <h6 class="fw-bold mb-3">Disponibilidade <small class="text-muted">(Opcional)</small></h6>
+                            </div>
+                            
+                            <!-- Segunda-feira -->
+                            <div class="col-12">
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-2">
+                                        <label class="form-check-label">Segunda-feira</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">De</span>
+                                            <input type="time" class="form-control" id="segundaInicio" name="segundaInicio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">Até</span>
+                                            <input type="time" class="form-control" id="segundaFim" name="segundaFim">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Terça-feira -->
+                            <div class="col-12">
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-2">
+                                        <label class="form-check-label">Terça-feira</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">De</span>
+                                            <input type="time" class="form-control" id="tercaInicio" name="tercaInicio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">Até</span>
+                                            <input type="time" class="form-control" id="tercaFim" name="tercaFim">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Quarta-feira -->
+                            <div class="col-12">
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-2">
+                                        <label class="form-check-label">Quarta-feira</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">De</span>
+                                            <input type="time" class="form-control" id="quartaInicio" name="quartaInicio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">Até</span>
+                                            <input type="time" class="form-control" id="quartaFim" name="quartaFim">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Quinta-feira -->
+                            <div class="col-12">
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-2">
+                                        <label class="form-check-label">Quinta-feira</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">De</span>
+                                            <input type="time" class="form-control" id="quintaInicio" name="quintaInicio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">Até</span>
+                                            <input type="time" class="form-control" id="quintaFim" name="quintaFim">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sexta-feira -->
+                            <div class="col-12">
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-2">
+                                        <label class="form-check-label">Sexta-feira</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">De</span>
+                                            <input type="time" class="form-control" id="sextaInicio" name="sextaInicio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">Até</span>
+                                            <input type="time" class="form-control" id="sextaFim" name="sextaFim">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sábado -->
+                            <div class="col-12">
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-2">
+                                        <label class="form-check-label">Sábado</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">De</span>
+                                            <input type="time" class="form-control" id="sabadoInicio" name="sabadoInicio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">Até</span>
+                                            <input type="time" class="form-control" id="sabadoFim" name="sabadoFim">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Domingo -->
+                            <div class="col-12">
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-2">
+                                        <label class="form-check-label">Domingo</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">De</span>
+                                            <input type="time" class="form-control" id="domingoInicio" name="domingoInicio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">Até</span>
+                                            <input type="time" class="form-control" id="domingoFim" name="domingoFim">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Observações -->
+                            <div class="col-12 mt-4">
+                                <label for="observacoesProfissional" class="form-label">Observações</label>
+                                <textarea class="form-control" id="observacoesProfissional" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarProfissional">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar lista de profissionais
+            carregarProfissionais();
+            
+            // Cadastrar novo profissional
+            const btnSalvarProfissional = document.getElementById('btnSalvarProfissional');
+            if (btnSalvarProfissional) {
+                btnSalvarProfissional.addEventListener('click', function() {
+                    salvarProfissional();
+                });
+            }
+        });
+        
+        // Função para carregar a lista de profissionais
+        async function carregarProfissionais() {
+            try {
+                // Se a API estiver disponível, carregar dados reais
+                if (typeof api !== 'undefined' && api.profissionais) {
+                    const profissionais = await api.profissionais.listar();
+                    renderizarProfissionais(profissionais);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar profissionais:', error);
+            }
+        }
+        
+        // Função para renderizar a lista de profissionais
+        function renderizarProfissionais(profissionais) {
+            const tbody = document.querySelector('.professionals-table tbody');
+            if (!tbody || !profissionais || profissionais.length === 0) return;
+            
+            // Limpar a tabela
+            tbody.innerHTML = '';
+            
+            // Mostrar os dados
+            profissionais.forEach(prof => {
+                const tr = document.createElement('tr');
+                
+                // Renderizar a avaliação em estrelas
+                const rating = 4.5; // Valor fixo para exemplo, poderia vir de uma média de avaliações
+                const starsHtml = renderizarEstrelas(rating);
+                
+                // Definir a classe do status
+                let statusClass = '';
+                switch (prof.status) {
+                    case 'ATIVO':
+                        statusClass = 'status-ativo';
+                        break;
+                    case 'INATIVO':
+                        statusClass = 'status-inativo';
+                        break;
+                    case 'FERIAS':
+                        statusClass = 'status-ferias';
+                        break;
+                    case 'AFASTADO':
+                        statusClass = 'status-afastado';
+                        break;
+                    default:
+                        statusClass = 'status-ativo';
+                }
+                
+                tr.innerHTML = `
+                    <td>${prof.nome}</td>
+                    <td>${prof.identificacao || '-'}</td>
+                    <td>${prof.especialidade}</td>
+                    <td>${prof.agendamentos ? prof.agendamentos.length : 0}</td>
+                    <td>
+                        <div class="rating">
+                            ${starsHtml}
+                        </div>
+                    </td>
+                    <td><span class="status-badge ${statusClass}">${prof.status}</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-outline-primary action-btn" title="Editar" onclick="editarProfissional(${prof.id})">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-outline-info action-btn" title="Ver detalhes" onclick="verDetalhesProfissional(${prof.id})">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-outline-danger action-btn" title="Desativar" onclick="alterarStatusProfissional(${prof.id}, 'INATIVO')">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // Função para salvar um novo profissional
+        async function salvarProfissional() {
+            const form = document.getElementById('formNovoProfissional');
+            if (!form) return;
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            try {
+                const novoProfissional = {
+                    nome: document.getElementById('nomeProfissional').value,
+                    identificacao: document.getElementById('identificacaoProfissional').value,
+                    telefone: document.getElementById('telefoneProfissional').value,
+                    email: document.getElementById('emailProfissional').value,
+                    especialidade: document.getElementById('especialidadeProfissional').value,
+                    comissaoPadrao: document.getElementById('comissaoProfissional').value,
+                    status: document.getElementById('statusProfissional').value,
+                    observacoes: document.getElementById('observacoesProfissional').value,
+                    disponibilidade: {
+                        segundaInicio: document.getElementById('segundaInicio').value,
+                        segundaFim: document.getElementById('segundaFim').value,
+                        tercaInicio: document.getElementById('tercaInicio').value,
+                        tercaFim: document.getElementById('tercaFim').value,
+                        quartaInicio: document.getElementById('quartaInicio').value,
+                        quartaFim: document.getElementById('quartaFim').value,
+                        quintaInicio: document.getElementById('quintaInicio').value,
+                        quintaFim: document.getElementById('quintaFim').value,
+                        sextaInicio: document.getElementById('sextaInicio').value,
+                        sextaFim: document.getElementById('sextaFim').value,
+                        sabadoInicio: document.getElementById('sabadoInicio').value,
+                        sabadoFim: document.getElementById('sabadoFim').value,
+                        domingoInicio: document.getElementById('domingoInicio').value,
+                        domingoFim: document.getElementById('domingoFim').value
+                    }
+                };
+                
+                // Se a API estiver disponível, salvar os dados
+                if (typeof api !== 'undefined' && api.profissionais) {
+                    const profissionalSalvo = await api.profissionais.criar(novoProfissional);
+                    
+                    // Fechar o modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('novoProfissionalModal'));
+                    if (modal) modal.hide();
+                    
+                    // Recarregar a lista de profissionais
+                    carregarProfissionais();
+                    
+                    // Feedback para o usuário
+                    alert('Profissional cadastrado com sucesso!');
+                } else {
+                    console.log('Dados do profissional:', novoProfissional);
+                    alert('API não disponível. Profissional seria cadastrado em produção.');
+                }
+            } catch (error) {
+                console.error('Erro ao salvar profissional:', error);
+                alert('Erro ao cadastrar profissional. Tente novamente.');
+            }
+        }
+        
+        // Função para editar um profissional
+        function editarProfissional(id) {
+            console.log('Editando profissional ID:', id);
+            // Implementação futura
+        }
+        
+        // Função para ver detalhes de um profissional
+        function verDetalhesProfissional(id) {
+            console.log('Vendo detalhes do profissional ID:', id);
+            // Implementação futura
+        }
+        
+        // Função para alterar o status de um profissional
+        async function alterarStatusProfissional(id, novoStatus) {
+            console.log('Alterando status do profissional ID:', id, 'para', novoStatus);
+            // Implementação futura
+        }
+        
+        // Função auxiliar para renderizar estrelas de avaliação
+        function renderizarEstrelas(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+            
+            let starsHtml = '';
+            
+            // Estrelas cheias
+            for (let i = 0; i < fullStars; i++) {
+                starsHtml += '<i class="bi bi-star-fill"></i>';
+            }
+            
+            // Meia estrela
+            if (halfStar) {
+                starsHtml += '<i class="bi bi-star-half"></i>';
+            }
+            
+            // Estrelas vazias
+            for (let i = 0; i < emptyStars; i++) {
+                starsHtml += '<i class="bi bi-star"></i>';
+            }
+            
+            starsHtml += `<small class="text-muted ms-1">${rating.toFixed(1)}</small>`;
+            
+            return starsHtml;
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,197 @@
+/* Estilos específicos para o dashboard */
+body {
+    padding-top: 70px;
+    background-color: var(--secondary-color);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.dashboard-container {
+    padding: 20px;
+}
+
+.sidebar {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    min-height: calc(100vh - 70px);
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 260px;
+    z-index: 100;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+    margin-left: 260px;
+    padding: 35px 20px 20px 20px;
+}
+
+.card-dashboard {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+    border: none;
+    overflow: hidden;
+}
+
+.card-dashboard .card-header {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 20px;
+    font-weight: 600;
+}
+
+.card-dashboard .card-body {
+    padding: 20px;
+}
+
+.stat-card {
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: none;
+}
+
+.stat-card .icon {
+    background-color: rgba(89, 48, 67, 0.1);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.stat-card .details {
+    flex: 1;
+}
+
+.stat-card .details h5 {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    opacity: 0.8;
+}
+
+.stat-card .details h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-card .details p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: var(--text-dark);
+    opacity: 0.7;
+}
+
+.chart-placeholder {
+    width: 100%;
+    height: 300px;
+    background-color: rgba(89, 48, 67, 0.05);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    font-weight: 500;
+    border: 1px dashed var(--border-color);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background-color: rgba(89, 48, 67, 0.05);
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-success {
+    background-color: var(--success-color);
+}
+
+.status-warning {
+    background-color: var(--warning-color);
+}
+
+.status-danger {
+    background-color: var(--danger-color);
+}
+
+.progress-bar-custom {
+    height: 8px;
+    border-radius: 4px;
+    background-color: rgba(89, 48, 67, 0.1);
+    overflow: hidden;
+    width: 100%;
+}
+
+.progress-value {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.bg-primary-custom {
+    background-color: var(--primary-color);
+}
+
+.bg-success-custom {
+    background-color: var(--success-color);
+}
+
+.bg-warning-custom {
+    background-color: var(--warning-color);
+}
+
+.bg-danger-custom {
+    background-color: var(--danger-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        margin-bottom: 20px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+} 

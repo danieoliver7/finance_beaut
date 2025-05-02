@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Fragmento do Calendário -->
+    <div th:fragment="calendar" class="calendar-container">
+        <!-- Cabeçalho do Calendário -->
+        <div class="calendar-header">
+            <div class="calendar-title">
+                <h4>Calendário de Agendamentos</h4>
+            </div>
+            <div class="calendar-nav">
+                <button id="btnHoje" class="btn btn-sm btn-outline-primary me-2">Hoje</button>
+                <div class="btn-group me-3">
+                    <button id="btnMes" class="btn btn-sm btn-outline-primary active">Mês</button>
+                    <button id="btnSemana" class="btn btn-sm btn-outline-primary">Semana</button>
+                    <button id="btnDia" class="btn btn-sm btn-outline-primary">Dia</button>
+                </div>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#novoAgendamentoModal">
+                    <i class="bi bi-plus-circle"></i> Novo Agendamento
+                </button>
+            </div>
+        </div>
+        
+        <!-- Legenda do Calendário -->
+        <div class="calendar-legend">
+            <div class="legend-item">
+                <span class="legend-color bg-estetica"></span>
+                <span class="legend-text">Estética</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color bg-saude"></span>
+                <span class="legend-text">Saúde</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color bg-cancelado"></span>
+                <span class="legend-text">Cancelado</span>
+            </div>
+        </div>
+        
+        <!-- Calendário FullCalendar -->
+        <div id="calendar"></div>
+    </div>
+</body>
+</html> 
