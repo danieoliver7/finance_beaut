@@ -1,0 +1,91 @@
+.update-index-container {
+  padding: 2rem;
+}
+
+.update-index-container h1 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  background-color: var(--secondary-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 1rem;
+}
+
+.card-header h5 {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-control {
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(89, 48, 67, 0.25);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #4a2836;
+  border-color: #4a2836;
+}
+
+/* Preview da imagem */
+.preview-image-container {
+  margin-top: 1rem;
+  border: 1px dashed #dee2e6;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.preview-image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+}
+
+/* Ícones das redes sociais */
+.bi {
+  font-size: 1.2rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .update-index-container {
+    padding: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+} 

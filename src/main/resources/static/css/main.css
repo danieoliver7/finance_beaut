@@ -1,0 +1,251 @@
+/* Arquivo CSS principal com esquema de cores da clínica */
+:root {
+    --primary-color: #593043; /* Roxo escuro/vinho da barra de navegação */
+    --secondary-color: #f0e9e2; /* Bege claro do fundo */
+    --text-light: #ffffff; /* Branco para texto em fundo escuro */
+    --text-dark: #333333; /* Cinza escuro para texto em fundo claro */
+    --accent-color: #725367; /* Tom mais claro do roxo para hover */
+    --success-color: #4e8d7c; /* Verde para badges e status positivos */
+    --warning-color: #f5b841; /* Amarelo para avisos */
+    --danger-color: #d9534f; /* Vermelho para alertas e exclusão */
+    --card-bg: #ffffff; /* Fundo branco para cartões */
+    --border-color: #e1dacf; /* Cor de borda suave */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--secondary-color);
+    color: var(--text-dark);
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header e navegação */
+.header {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    color: var(--text-light);
+}
+
+.navbar {
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-brand, .navbar-brand h4 {
+    color: var(--text-light) !important;
+}
+
+.nav-link {
+    color: var(--text-light) !important;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.dropdown-menu {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+.dropdown-item {
+    color: var(--text-dark);
+}
+
+.dropdown-item:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Botões */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+/* Cartões e painéis */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.card-header {
+    background-color: rgba(89, 48, 67, 0.05);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Cards com borda especial */
+.border-left-primary {
+    border-left: 4px solid var(--primary-color);
+}
+
+.border-left-success {
+    border-left: 4px solid var(--success-color);
+}
+
+.border-left-warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+.border-left-info {
+    border-left: 4px solid #17a2b8;
+}
+
+/* Formulários */
+.form-control, .form-select {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(89, 48, 67, 0.25);
+}
+
+.input-group-text {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Tabelas */
+.table {
+    background-color: var(--card-bg);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(89, 48, 67, 0.03);
+}
+
+.table thead th {
+    background-color: rgba(89, 48, 67, 0.07);
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* Badges */
+.badge.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--warning-color) !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--danger-color) !important;
+}
+
+/* Paginação */
+.page-link {
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-link:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+/* Alertas */
+.alert-success {
+    background-color: rgba(78, 141, 124, 0.2);
+    border-color: rgba(78, 141, 124, 0.5);
+    color: var(--success-color);
+}
+
+.alert-danger {
+    background-color: rgba(217, 83, 79, 0.2);
+    border-color: rgba(217, 83, 79, 0.5);
+    color: var(--danger-color);
+}
+
+/* Login */
+.login-page {
+    background-color: var(--secondary-color);
+}
+
+.login-card {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Rodapé */
+footer {
+    background-color: var(--primary-color) !important;
+    color: var(--text-light) !important;
+    padding: 20px 0;
+    margin-top: 50px !important;
+}
+
+footer p {
+    color: var(--text-light) !important;
+    margin-bottom: 0;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .card {
+        margin-bottom: 15px;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+    }
+} 

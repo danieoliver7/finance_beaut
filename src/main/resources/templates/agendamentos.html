@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos - Beauty Clinic Finance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/calendar.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <!-- FullCalendar -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js'></script>
+    <script src="/js/agendamentos.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #593043;
+            --primary-light: #f8f6f8;
+            --primary-dark: #40232f;
+            --accent-color: #e83e8c;
+            --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --border-color: #e3e6f0;
+            --success-color: #1cc88a;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --info-color: #36b9cc;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0e9e2;
+            color: var(--text-dark);
+        }
+        
+        body.has-sidebar {
+            padding-left: var(--sidebar-width);
+            padding-top: 30px;
+        }
+        
+        .main-container {
+            padding: 85px 30px 20px 30px;
+        }
+        
+        .page-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        /* Barra de navegação superior */
+        .top-nav {
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+        }
+        
+        .top-nav .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        /* Estatísticas */
+        .stats-row {
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            border-radius: 0.375rem;
+            border-left: 0.25rem solid;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            background-color: white;
+            padding: 1.25rem;
+            position: relative;
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        
+        .stat-card .stat-icon {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        .stat-card .stat-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+            color: #4e73df;
+        }
+        
+        .stat-card .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            color: var(--text-dark);
+        }
+        
+        .stat-card .stat-percent {
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+        
+        .card-primary {
+            border-left-color: #4e73df;
+        }
+        
+        .card-primary .stat-title {
+            color: #4e73df;
+        }
+        
+        .card-success {
+            border-left-color: #1cc88a;
+        }
+        
+        .card-success .stat-title {
+            color: #1cc88a;
+        }
+        
+        .card-info {
+            border-left-color: #36b9cc;
+        }
+        
+        .card-info .stat-title {
+            color: #36b9cc;
+        }
+        
+        .card-warning {
+            border-left-color: #f6c23e;
+        }
+        
+        .card-warning .stat-title {
+            color: #f6c23e;
+        }
+        
+        /* Calendário */
+        .calendar-card {
+            border-radius: 0.375rem;
+            background-color: white;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border: none;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .calendar-header {
+            padding: 1rem 1.25rem;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .calendar-body {
+            padding: 1rem;
+        }
+        
+        .calendar-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .calendar-toolbar .btn-group .btn {
+            font-size: 0.8rem;
+            border-radius: 0.2rem;
+        }
+        
+        .calendar-filters {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        /* Tabela de agendamentos */
+        .table-card {
+            border-radius: 0.375rem;
+            background-color: white;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border: none;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            padding: 1rem 1.25rem;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+        
+        .appointments-table {
+            margin-bottom: 0;
+        }
+        
+        .appointments-table th {
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.75rem 1.25rem;
+            background-color: #f8f9fc;
+            border-bottom: 1px solid var(--border-color);
+            color: #4e73df;
+            text-transform: uppercase;
+        }
+        
+        .appointments-table td {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            vertical-align: middle;
+            border-color: var(--border-color);
+        }
+        
+        .appointments-table tr:hover {
+            background-color: #f8f9fc;
+        }
+        
+        /* Status badges */
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-confirmado {
+            background-color: rgba(28, 200, 138, 0.1);
+            color: #1cc88a;
+        }
+        
+        .status-pendente {
+            background-color: rgba(246, 194, 62, 0.1);
+            color: #f6c23e;
+        }
+        
+        .status-cancelado {
+            background-color: rgba(231, 74, 59, 0.1);
+            color: #e74a3b;
+        }
+        
+        /* Botões de ação */
+        .action-btn {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            margin-right: 5px;
+        }
+        
+        /* Estilos para calendário */
+        #calendar {
+            height: 500px;
+        }
+        
+        .fc .fc-toolbar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .fc .fc-button {
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .bg-estetica {
+            background-color: #4e73df;
+        }
+        
+        .bg-saude {
+            background-color: #1cc88a;
+        }
+        
+        .bg-cancelado {
+            background-color: #e74a3b;
+        }
+        
+        /* Utilitários */
+        .shadow-sm {
+            box-shadow: 0 0.125rem 0.25rem 0 rgba(58, 59, 69, 0.2) !important;
+        }
+        
+        .text-primary {
+            color: #4e73df !important;
+        }
+        
+        .text-success {
+            color: #1cc88a !important;
+        }
+        
+        .text-warning {
+            color: #f6c23e !important;
+        }
+        
+        .text-danger {
+            color: #e74a3b !important;
+        }
+        
+        .text-info {
+            color: #36b9cc !important;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 992px) {
+            body.has-sidebar {
+                padding-left: 0;
+            }
+            
+            .top-nav {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="has-sidebar">
+    <!-- Sidebar -->
+    <div th:replace="fragments/sidebar :: sidebar('agendamentos')"></div>
+    
+    <!-- Barra de navegação superior -->
+    <header th:replace="fragments/header :: header"></header>
+
+    <!-- Conteúdo principal -->
+    <div class="main-container">
+        <!-- Cabeçalho da página -->
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <h4 class="page-title mb-0">Agendamentos</h4>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm shadow-sm">
+                    <i class="bi bi-calendar"></i> Este mês
+                </button>
+                <button class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#novoAgendamentoModal">
+                    <i class="bi bi-plus-circle"></i> Novo Agendamento
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards de estatísticas -->
+        <div class="row stats-row">
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-primary">
+                    <div class="stat-title">Total de Agendamentos</div>
+                    <div class="stat-value">48</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-up"></i> 12% este mês</div>
+                    <div class="stat-icon"><i class="bi bi-calendar-check"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-success">
+                    <div class="stat-title">Novos Clientes</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-up"></i> 8% este mês</div>
+                    <div class="stat-icon"><i class="bi bi-person-plus"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-info">
+                    <div class="stat-title">Receita</div>
+                    <div class="stat-value">R$ 8.250</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-up"></i> 15% este mês</div>
+                    <div class="stat-icon"><i class="bi bi-cash"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card card-warning">
+                    <div class="stat-title">Taxa de Ocupação</div>
+                    <div class="stat-value">78%</div>
+                    <div class="stat-percent"><i class="bi bi-arrow-down"></i> 2% este mês</div>
+                    <div class="stat-icon"><i class="bi bi-clock"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendário -->
+        <div class="calendar-card">
+            <div class="calendar-header">
+                <div class="calendar-toolbar">
+                    <button id="btnHoje" class="btn btn-sm btn-outline-primary shadow-sm">Hoje</button>
+                    <div class="btn-group shadow-sm">
+                        <button id="btnMes" class="btn btn-sm btn-outline-primary active">Mês</button>
+                        <button id="btnSemana" class="btn btn-sm btn-outline-primary">Semana</button>
+                        <button id="btnDia" class="btn btn-sm btn-outline-primary">Dia</button>
+                    </div>
+                </div>
+                <div class="calendar-filters">
+                    <div class="legend-item">
+                        <span class="legend-color bg-estetica"></span>
+                        <span>Estética</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color bg-saude"></span>
+                        <span>Saúde</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color bg-cancelado"></span>
+                        <span>Cancelado</span>
+                    </div>
+                </div>
+            </div>
+            <div class="calendar-body">
+                <div id="calendar"></div>
+            </div>
+        </div>
+
+        <!-- Tabela de agendamentos -->
+        <div class="table-card">
+            <div class="table-header">
+                <h5 class="table-title">Agendamentos Recentes</h5>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle shadow-sm" type="button" id="filtroAgendamentos" data-bs-toggle="dropdown" aria-expanded="false">
+                        Hoje
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filtroAgendamentos">
+                        <li><a class="dropdown-item" href="#">Hoje</a></li>
+                        <li><a class="dropdown-item" href="#">Esta Semana</a></li>
+                        <li><a class="dropdown-item" href="#">Este Mês</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Procedimento</th>
+                            <th>Data/Hora</th>
+                            <th>Status</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Maria Silva</td>
+                            <td>Limpeza de Pele</td>
+                            <td>12/06 10:00</td>
+                            <td><span class="status-badge status-confirmado">Confirmado</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>João Carlos</td>
+                            <td>Massagem</td>
+                            <td>12/06 14:30</td>
+                            <td><span class="status-badge status-pendente">Pendente</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ana Souza</td>
+                            <td>Botox</td>
+                            <td>12/06 16:00</td>
+                            <td><span class="status-badge status-cancelado">Cancelado</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Paulo Henrique</td>
+                            <td>Acupuntura</td>
+                            <td>13/06 09:00</td>
+                            <td><span class="status-badge status-confirmado">Confirmado</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Clara Oliveira</td>
+                            <td>Drenagem</td>
+                            <td>13/06 11:30</td>
+                            <td><span class="status-badge status-confirmado">Confirmado</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Roberto Alves</td>
+                            <td>Fisioterapia</td>
+                            <td>13/06 14:00</td>
+                            <td><span class="status-badge status-pendente">Pendente</span></td>
+                            <td class="text-end">
+                                <button class="btn btn-outline-primary action-btn">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-danger action-btn">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Agendamento -->
+    <div class="modal fade" id="novoAgendamentoModal" tabindex="-1" aria-labelledby="novoAgendamentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="novoAgendamentoModalLabel">Novo Agendamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovoAgendamento">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="clienteAgendamento" class="form-label">Cliente</label>
+                                <select class="form-select" id="clienteAgendamento" required>
+                                    <option value="" selected disabled>Selecione</option>
+                                    <option value="1">Maria Silva</option>
+                                    <option value="2">João Carlos</option>
+                                    <option value="3">Ana Souza</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="procedimentoAgendamento" class="form-label">Procedimento</label>
+                                <select class="form-select" id="procedimentoAgendamento" required>
+                                    <option value="" selected disabled>Selecione</option>
+                                    <option value="1">Limpeza de Pele</option>
+                                    <option value="2">Massagem</option>
+                                    <option value="3">Botox</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="profissionalAgendamento" class="form-label">Profissional</label>
+                                <select class="form-select" id="profissionalAgendamento" required>
+                                    <option value="" selected disabled>Selecione</option>
+                                    <option value="1">Dra. Ana Oliveira</option>
+                                    <option value="2">Dr. Carlos Santos</option>
+                                    <option value="3">Dra. Márcia Lima</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="valorAgendamento" class="form-label">Valor (R$)</label>
+                                <input type="number" class="form-control" id="valorAgendamento" placeholder="0,00" step="0.01" min="0" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dataAgendamento" class="form-label">Data</label>
+                                <input type="date" class="form-control" id="dataAgendamento" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="horaAgendamento" class="form-label">Hora</label>
+                                <input type="time" class="form-control" id="horaAgendamento" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="observacoesAgendamento" class="form-label">Observações</label>
+                                <textarea class="form-control" id="observacoesAgendamento" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarAgendamento">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

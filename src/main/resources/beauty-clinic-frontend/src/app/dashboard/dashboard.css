@@ -1,0 +1,153 @@
+/* Estilos para os cards do dashboard */
+.border-left-primary {
+  border-left: 0.25rem solid var(--primary-color);
+}
+
+.border-left-success {
+  border-left: 0.25rem solid #28a745;
+}
+
+.border-left-info {
+  border-left: 0.25rem solid #17a2b8;
+}
+
+.border-left-warning {
+  border-left: 0.25rem solid #ffc107;
+}
+
+.text-gray-300 {
+  color: #dddfeb !important;
+}
+
+.text-gray-800 {
+  color: #5a5c69 !important;
+}
+
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+
+.text-xs {
+  font-size: 0.7rem;
+}
+
+.card-header {
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+/* Estilos para o dashboard */
+.dashboard-container {
+  background-color: #f5f2ee;
+  min-height: 100vh;
+  padding-bottom: 30px;
+  width: 100%;
+}
+
+/* Estilos para os cards */
+.dashboard-card {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fff;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-value {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 10px 0;
+  color: #333;
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.growth-indicator {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.growth-indicator.positive {
+  color: #28a745;
+}
+
+.growth-indicator.negative {
+  color: #dc3545;
+}
+
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(89, 48, 67, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle i {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+/* Estilos para os botões superiores */
+.export-btn {
+  border-radius: 6px;
+  padding: 8px 16px;
+}
+
+.period-selector button {
+  border-radius: 6px;
+  padding: 8px 16px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+}
+
+/* Estilos para o card de gráfico */
+.chart-container {
+  background-color: #fafafa;
+  border-radius: 0 0 10px 10px;
+}
+
+.card-header {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Estilo para desktops maiores */
+@media (min-width: 1200px) {
+  .container-fluid {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Ajustes para o dashboard no mobile */
+@media (max-width: 767.98px) {
+  .dashboard-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .chart-container {
+    height: auto !important;
+  }
+  
+  .card-value {
+    font-size: 1.8rem;
+  }
+} 

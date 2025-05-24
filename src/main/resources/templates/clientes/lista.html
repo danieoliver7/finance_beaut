@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Clientes')">
+</head>
+<body>
+    <header th:replace="fragments/layout :: header"></header>
+    
+    <div th:replace="fragments/layout :: alerts"></div>
+    
+    <main class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Clientes</h2>
+            <a th:href="@{/clientes/novo}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Novo Cliente
+            </a>
+        </div>
+        
+        <!-- Filtros e Busca -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="get" th:action="@{/clientes}">
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar por nome ou CPF" name="busca" th:value="${param.busca}">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <select class="form-select" name="status">
+                                <option value="">Status</option>
+                                <option value="ativo">Ativos</option>
+                                <option value="inativo">Inativos</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <select class="form-select" name="ordenarPor">
+                                <option value="nome">Ordenar por Nome</option>
+                                <option value="dataCadastro">Data de Cadastro</option>
+                                <option value="ultimaVisita">Última Visita</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Tabela de Clientes -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Email</th>
+                                <th>Data de Cadastro</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Ana Maria Silva</td>
+                                <td>123.456.789-00</td>
+                                <td>(11) 98765-4321</td>
+                                <td>ana.silva@email.com</td>
+                                <td>01/03/2023</td>
+                                <td><span class="badge bg-success">Ativo</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a th:href="@{/clientes/1}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                        <a th:href="@{/clientes/1/editar}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluirModal1"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Carlos Oliveira</td>
+                                <td>987.654.321-00</td>
+                                <td>(11) 91234-5678</td>
+                                <td>carlos.oliveira@email.com</td>
+                                <td>15/04/2023</td>
+                                <td><span class="badge bg-success">Ativo</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a th:href="@{/clientes/2}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                        <a th:href="@{/clientes/2/editar}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluirModal2"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Mariana Costa</td>
+                                <td>456.789.123-00</td>
+                                <td>(11) 97654-3210</td>
+                                <td>mariana.costa@email.com</td>
+                                <td>22/05/2023</td>
+                                <td><span class="badge bg-success">Ativo</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a th:href="@{/clientes/3}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                        <a th:href="@{/clientes/3/editar}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluirModal3"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Paginação -->
+                <nav aria-label="Navegação de página">
+                    <ul class="pagination justify-content-center mt-4">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modal de Exclusão -->
+    <div class="modal fade" id="excluirModal1" tabindex="-1" aria-labelledby="excluirModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="excluirModalLabel">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir o cliente <strong>Ana Maria Silva</strong>?</p>
+                    <p class="text-danger">Esta ação não pode ser desfeita.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form th:action="@{/clientes/1}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer th:replace="fragments/layout :: footer"></footer>
+</body>
+</html> 
