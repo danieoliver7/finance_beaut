@@ -309,8 +309,13 @@
     </div>
     
     <!-- Ações do título da página -->
+<<<<<<< HEAD
     <div id="dashboard-actions" style="padding-top: 20px;">
             <button class="btn btn-outline-primary me-2">
+=======
+    <div id="dashboard-actions" th:fragment="pageActions">
+        <button class="btn btn-outline-primary me-2">
+>>>>>>> fcc7b13eb49da7bf91a970bebad2018b9587b896
             <i class="bi bi-calendar"></i> Período: Este mês
         </button>
         <button class="btn btn-primary">
@@ -319,7 +324,11 @@
     </div>
     
     <!-- Conteúdo específico do dashboard -->
+<<<<<<< HEAD
     <div id="dashboard-content" >
+=======
+    <div id="dashboard-content" th:fragment="content">
+>>>>>>> fcc7b13eb49da7bf91a970bebad2018b9587b896
         <!-- Cards de Estatísticas -->
         <div class="row">
             <div class="col-md-3">
@@ -401,7 +410,169 @@
                 </div>
             </div>
             
+<<<<<<< HEAD
             
+=======
+            <!-- Gráfico de Estatísticas -->
+            <div class="col-lg-4">
+                <div class="card card-dashboard">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Estatísticas</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="statsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Este Mês
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="statsDropdown">
+                                <li><a class="dropdown-item" href="#">Esta Semana</a></li>
+                                <li><a class="dropdown-item" href="#">Este Mês</a></li>
+                                <li><a class="dropdown-item" href="#">Este Ano</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-placeholder">
+                            <div class="text-center">
+                                <i class="bi bi-pie-chart fs-1 mb-3"></i>
+                                <p>Aqui será implementado o gráfico de estatísticas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Tabela de Agendamentos Recentes -->
+            <div class="col-lg-7">
+                <div class="card card-dashboard">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Agendamentos Recentes</h5>
+                        <a href="/agendamentos" class="btn btn-sm btn-outline-primary">Ver todos</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Procedimento</th>
+                                        <th>Data/Hora</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ana Silva</td>
+                                        <td>Limpeza de Pele</td>
+                                        <td>20/11/2023 14:30</td>
+                                        <td>R$ 150,00</td>
+                                        <td><span class="status-indicator status-success"></span> Confirmado</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carlos Oliveira</td>
+                                        <td>Massagem Modeladora</td>
+                                        <td>21/11/2023 10:00</td>
+                                        <td>R$ 200,00</td>
+                                        <td><span class="status-indicator status-warning"></span> Pendente</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mariana Costa</td>
+                                        <td>Microagulhamento</td>
+                                        <td>22/11/2023 16:45</td>
+                                        <td>R$ 350,00</td>
+                                        <td><span class="status-indicator status-success"></span> Confirmado</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Paulo Santos</td>
+                                        <td>Depilação a Laser</td>
+                                        <td>18/11/2023 09:15</td>
+                                        <td>R$ 280,00</td>
+                                        <td><span class="status-indicator status-danger"></span> Cancelado</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Juliana Lima</td>
+                                        <td>Peeling Químico</td>
+                                        <td>23/11/2023 15:30</td>
+                                        <td>R$ 180,00</td>
+                                        <td><span class="status-indicator status-success"></span> Confirmado</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desempenho dos Procedimentos -->
+            <div class="col-lg-5">
+                <div class="card card-dashboard">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Desempenho dos Procedimentos</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="perfDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Este Mês
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="perfDropdown">
+                                <li><a class="dropdown-item" href="#">Esta Semana</a></li>
+                                <li><a class="dropdown-item" href="#">Este Mês</a></li>
+                                <li><a class="dropdown-item" href="#">Este Ano</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Limpeza de Pele</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-primary-custom" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Massagem Modeladora</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-success-custom" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Microagulhamento</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-warning-custom" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Depilação a Laser</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-primary-custom" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Peeling Químico</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="progress-bar-custom">
+                                <div class="progress-value bg-danger-custom" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+>>>>>>> fcc7b13eb49da7bf91a970bebad2018b9587b896
     <!-- Scripts específicos do dashboard -->
     <div id="dashboard-scripts" th:fragment="pageScripts">
         <script>
@@ -424,12 +595,21 @@
                 if (typeof api !== 'undefined' && api.agendamentos) {
                     api.agendamentos.hoje()
                         .then(agendamentos => {
+<<<<<<< HEAD
                             // Limpar a tabela em qualquer caso
                             tbody.innerHTML = '';
                             
                             // Se não houver agendamentos, não fazer nada
                             if (agendamentos.length === 0) return;
                             
+=======
+                            // Se não houver agendamentos, manter os dados de exemplo
+                            if (agendamentos.length === 0) return;
+                            
+                            // Limpar a tabela
+                            tbody.innerHTML = '';
+                            
+>>>>>>> fcc7b13eb49da7bf91a970bebad2018b9587b896
                             // Mostrar os novos dados
                             agendamentos.slice(0, 5).forEach(ag => {
                                 const tr = document.createElement('tr');
@@ -465,6 +645,7 @@
                                 tbody.appendChild(tr);
                             });
                         })
+<<<<<<< HEAD
                         .catch(error => {
                             console.error('Erro ao carregar agendamentos:', error);
                             // Limpar a tabela em caso de erro também
@@ -473,6 +654,9 @@
                 } else {
                     // Se a API não estiver disponível, limpar a tabela
                     tbody.innerHTML = '';
+=======
+                        .catch(error => console.error('Erro ao carregar agendamentos:', error));
+>>>>>>> fcc7b13eb49da7bf91a970bebad2018b9587b896
                 }
             }
         </script>

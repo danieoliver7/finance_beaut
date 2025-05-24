@@ -4,8 +4,13 @@ Sistema desenvolvido para gerenciamento financeiro de clínica de estética, inc
 
 ## Tecnologias Utilizadas
 
+<<<<<<< HEAD
 - Java 21
 - Spring Boot 3.3.0
+=======
+- Java 17
+- Spring Boot 3.2.3
+>>>>>>> fcc7b13eb49da7bf91a970bebad2018b9587b896
 - Spring Data JPA
 - Spring Security
 - PostgreSQL
@@ -15,7 +20,11 @@ Sistema desenvolvido para gerenciamento financeiro de clínica de estética, inc
 
 ## Requisitos
 
+<<<<<<< HEAD
 - Java 21 ou superior
+=======
+- Java 17 ou superior
+>>>>>>> fcc7b13eb49da7bf91a970bebad2018b9587b896
 - PostgreSQL
 - Maven
 
